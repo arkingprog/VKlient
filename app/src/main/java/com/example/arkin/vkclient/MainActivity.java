@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
                     TextView txt = (TextView) findViewById(R.id.fullname);
                     txt.setText(userMe.get(0).first_name + " " + userMe.get(0).last_name);
                     txt = (TextView) findViewById(R.id.userName);
-                    txt.setText(userMe.get(0).first_name + " " + userMe.get(0).last_name);
+                    txt.setText(userMe.get(0).first_name + "gfd " + userMe.get(0).last_name);
                     txt = (TextView) findViewById(R.id.userOnline);
                     if (userMe.get(0).online) {
                         txt.setText(R.string.isOnline);
