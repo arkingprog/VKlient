@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-        .build();
-        ImageLoader.getInstance().init(config);
+        final ImageLoader imageLoader=ImageLoader.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,23 +95,21 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onComplete(VKResponse response) {
                     super.onComplete(response);
-
                     VKList<VKApiUser> userMe = ((VKList<VKApiUser>) response.parsedModel);
                     mainUser = userMe.get(0);
                     ImageView im = (ImageView) findViewById(R.id.imageView);
-                    //new DownloadImageTask(im).execute(userMe.get(0).photo_100);
+
+                    imageLoader.displayImage(userMe.get(0).photo_100,im);
                     im = (ImageView) findViewById(R.id.imageView_main);
-                   // new DownloadImageTask(im).execute(userMe.get(0).photo_200);
+                    imageLoader.displayImage(userMe.get(0).photo_200,im);
                     TextView txt = (TextView) findViewById(R.id.fullname);
                     txt.setText(userMe.get(0).first_name + " " + userMe.get(0).last_name);
                     txt = (TextView) findViewById(R.id.userName);
-                    txt.setText(userMe.get(0).first_name + "gfd " + userMe.get(0).last_name);
+                    txt.setText(userMe.get(0).first_name + " " + userMe.get(0).last_name);
                     txt = (TextView) findViewById(R.id.userOnline);
                     if (userMe.get(0).online) {
                         txt.setText(R.string.isOnline);
                     }
-                    //init
-
                 }
             });
 

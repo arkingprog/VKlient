@@ -29,12 +29,12 @@ public class GetUsersTask extends AsyncTask<String, Void, VKApiUser> {
     Context context;
     VKApiUser vkApiUser;
 
-    public GetUsersTask(TextView textView,ImageView imageView,Context context)
+    public GetUsersTask(TextView textView,ImageView imageView,Context context,ImageLoader imageLoader)
     {
         this.textView=textView;
         this.imageView=imageView;
         this.context=context;
-        imageLoader=ImageLoader.getInstance();
+        this.imageLoader=imageLoader;
 
     }
 
@@ -59,14 +59,14 @@ public class GetUsersTask extends AsyncTask<String, Void, VKApiUser> {
     protected void onPostExecute(VKApiUser result) {
         if(result!=null) {
             textView.setText(result.first_name + " " + result.last_name);
-            imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+            /*imageLoader.init(ImageLoaderConfiguration.createDefault(context));
             DisplayImageOptions options=new DisplayImageOptions.Builder()
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                     .build();
-
-            imageLoader.displayImage(result.photo_100, imageView);
+*/
+          //  imageLoader.displayImage(result.photo_100, imageView);
         }
     }
 }

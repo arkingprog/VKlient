@@ -1,4 +1,4 @@
-package com.example.arkin.vkclient;
+package com.example.arkin.vkclient.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.arkin.vkclient.R;
 import com.vk.sdk.api.model.VKApiDialog;
 import com.vk.sdk.api.model.VKApiGetDialogResponse;
 import com.vk.sdk.api.model.VKApiMessage;
+import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKPostArray;
 
 /**
@@ -27,7 +29,7 @@ public class DialogAdapter extends ArrayAdapter {
     }
     public DialogAdapter(Context context,VKApiGetDialogResponse dialogResponse)
     {
-        super(context,R.layout.list_item_messages);
+        super(context, R.layout.list_item_messages);
         ctx=context;
         obj=dialogResponse;
         layoutInflater=(LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,11 +59,11 @@ public class DialogAdapter extends ArrayAdapter {
 
         //holder.textDate.setText(String.valueOf(p.date));
         holder.textMessages.setText(p.body);
-        new GetUsersTask(holder.textName,
+       /* new GetUsersTask(holder.textName,
                 holder.imageView,
                 getContext())
                 .execute(String.valueOf(p.user_id));
-
+*/
 
         return view;
     }
