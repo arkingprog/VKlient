@@ -9,32 +9,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.arkin.vkclient.Application;
 import com.example.arkin.vkclient.GetUsersTask;
 import com.example.arkin.vkclient.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.vk.sdk.api.model.VKApiPost;
+import com.vk.sdk.api.model.VKApiUserFull;
+import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKPostArray;
 
-import java.util.ArrayList;
-
-public class RecyclerAdapterWall extends RecyclerView.Adapter<RecyclerAdapterWall.ViewHolder>{
+public class RecyclerAdapterFriend extends RecyclerView.Adapter<RecyclerAdapterFriend.ViewHolder>{
     Context ctx;
     ImageLoader imageLoader;
 
 
-    VKPostArray obj;
+    VKList obj;
 
-        public RecyclerAdapterWall(Context ctx, VKPostArray posts)
+        public RecyclerAdapterFriend(Context ctx, VKList friends)
         {
             //super(ctx,R.layout.recycler_item_wall);
-            this.obj=posts;
+            this.obj=friends;
             this.ctx=ctx;
             imageLoader.getInstance();
 
         }
-        public RecyclerAdapterWall(Context ctx, VKPostArray posts,String owner_id)
+        public RecyclerAdapterFriend(Context ctx, VKPostArray posts, String owner_id)
         {
             //super(ctx,R.layout.recycler_item_wall);
             this.obj=posts;
@@ -44,7 +42,7 @@ public class RecyclerAdapterWall extends RecyclerView.Adapter<RecyclerAdapterWal
         }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_wall,parent,false);
+        View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_friend,parent,false);
         ViewHolder viewHolder=new ViewHolder(v);
 
         return viewHolder;
@@ -52,15 +50,15 @@ public class RecyclerAdapterWall extends RecyclerView.Adapter<RecyclerAdapterWal
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final VKApiPost p=obj.get(position);
-        holder.imageWall.setVisibility(View.VISIBLE);
+        final VKApiUserFull p= (VKApiUserFull) obj.get(position);
+        //holder.imageWall.setVisibility(View.VISIBLE);
 
 
 
-        holder.textPost.setText(p.text);
-        holder.textDatePost.setText(String.valueOf(p.date));
-        //new GetUsersTask(holder.textNamePost,holder.imageWall,ctx).execute(String.valueOf(p.from_id));
-        new GetUsersTask(holder.textNamePost,holder.imageWall,ctx,imageLoader).execute(String.valueOf(p.from_id));
+       holder.textFullName.setText(p.first_name+ " " + p.last_name);
+       // holder.textDatePost.setText(String.valueOf(p.date));
+
+       new GetUsersTask(holder.textFullName,holder.imageFriend,ctx,imageLoader).execute(String.valueOf(p.id));
 
 
     }
@@ -74,20 +72,19 @@ public class RecyclerAdapterWall extends RecyclerView.Adapter<RecyclerAdapterWal
     public int getItemCount() {
         return obj.size();
     }
+
     public static class ViewHolder  extends RecyclerView.ViewHolder{
-        CardView cv;
-        TextView textNamePost;
-        TextView textDatePost;
-        TextView textPost;
-        ImageView imageWall;
+
+        TextView textFullName;
+        ImageView imageFriend;
+        ImageView imageIsOnline;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            cv=(CardView) itemView.findViewById(R.id.card_view_wall);
-            textDatePost=(TextView)itemView.findViewById(R.id.textDatePost);
-            textNamePost=(TextView)itemView.findViewById(R.id.textNamePost);
-            textPost=(TextView)itemView.findViewById(R.id.textPost);
-            imageWall=(ImageView)itemView.findViewById(R.id.imageWall);
+
+            textFullName=(TextView)itemView.findViewById(R.id.item_friend_fullname);
+            imageFriend=(ImageView)itemView.findViewById(R.id.item_friend_image);
+            imageIsOnline=(ImageView)itemView.findViewById(R.id.item_friend_is_online);
 
         }
     }

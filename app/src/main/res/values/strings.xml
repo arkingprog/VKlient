@@ -23,5 +23,6 @@
     <string name="title_activity_messages">MessagesActivity</string>
     <string name="isOnline">Онлайн</string>
     <string name="title_activity_dialog">DialogActivity</string>
+    <string name="title_activity_friend">FriendActivity</string>
 
 </resources>

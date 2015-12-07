@@ -45,6 +45,11 @@
             android:label="@string/title_activity_dialog"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".FriendActivity"
+            android:label="@string/title_activity_friend"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

@@ -8,6 +8,8 @@
             android:title="Сообщения" />
         <item android:id="@+id/nav_mainpage" android:icon="@android:drawable/ic_menu_camera"
             android:title="Моя страница" />
+
+
     </group>
 
     <item android:title="">

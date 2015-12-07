@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.squareup.picasso.Picasso;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
@@ -34,9 +35,12 @@ public class GetUsersTask extends AsyncTask<String, Void, VKApiUser> {
         this.textView=textView;
         this.imageView=imageView;
         this.context=context;
-        this.imageLoader=imageLoader;
+        this.imageLoader=ImageLoader.getInstance();
+
 
     }
+
+
 
     protected VKApiUser doInBackground(String... id) {
         String ID = id[0];
@@ -66,7 +70,12 @@ public class GetUsersTask extends AsyncTask<String, Void, VKApiUser> {
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                     .build();
 */
-          //  imageLoader.displayImage(result.photo_100, imageView);
-        }
+            imageLoader.displayImage(result.photo_100, imageView);
+            Picasso.with(context).setIndicatorsEnabled(true);
+            Picasso.with(context)
+                    .load(result.photo_100)
+                    .into(imageView);
+                    }
+        
     }
 }

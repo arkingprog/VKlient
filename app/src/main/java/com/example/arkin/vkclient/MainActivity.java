@@ -203,10 +203,11 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_messages:
                 Intent intentMes=new Intent(this,MessagesActivity.class);
-                intentMes.putExtra(VKApiUser.class.getCanonicalName(),mainUser);
+                intentMes.putExtra(VKApiUser.class.getCanonicalName(), mainUser);
                 startActivity(intentMes);
-
                 break;
+            case R.id.nav_friends:
+                startActivity(new Intent(this,FriendActivity.class));
             default:
 
         }
