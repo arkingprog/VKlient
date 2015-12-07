@@ -1,5 +1,6 @@
 package com.example.arkin.vkclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,15 +19,18 @@ import android.view.MenuItem;
 
 import com.example.arkin.vkclient.adapter.RecyclerAdapterFriend;
 import com.example.arkin.vkclient.adapter.RecyclerAdapterWall;
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiUser;
 import com.vk.sdk.api.model.VKList;
 
 public class FriendActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    VKApiUser mainUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,7 @@ public class FriendActivity extends AppCompatActivity
         setContentView(R.layout.activity_friend);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mainUser=(VKApiUser) getIntent().getParcelableExtra(VKApiUser.class.getCanonicalName());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,19 +59,9 @@ public class FriendActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         VKRequest request= VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"first_name"));
 
-        request.executeWithListener(new VKRequest.VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
-                VKList list = (VKList) response.parsedModel;
-                Log.v("ds", String.valueOf(list.size()));
-                RecyclerView rv=(RecyclerView)findViewById(R.id.userFriend);
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext());
-                rv.setLayoutManager(linearLayoutManager);
-                RecyclerAdapterFriend adapterFriends=new RecyclerAdapterFriend(getApplicationContext(),list);
-                rv.setAdapter(adapterFriends);
-            }
-        });
+
+        getFriend();
+
     }
 
     @Override
@@ -107,17 +102,21 @@ public class FriendActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        switch (id)
+        {
+            case R.id.nav_exit:
+                VKSdk.logout();
+                Intent intent=new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_messages:
+                Intent intentMes=new Intent(this,MessagesActivity.class);
+                intentMes.putExtra(VKApiUser.class.getCanonicalName(), mainUser);
+                startActivity(intentMes);
+                break;
+            case R.id.nav_mainpage:
+                startActivity(new Intent(this,MainActivity.class));
+            default:
 
         }
 
@@ -129,12 +128,16 @@ public class FriendActivity extends AppCompatActivity
     public void getFriend()
     {
         VKRequest request= VKApi.friends().get(VKParameters.from(VKApiConst.FIELDS,"first_name"));
-        request.executeWithListener(new VKRequest.VKRequestListener() {
+        request.executeSyncWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                VKList list=(VKList) response.parsedModel;
-                Log.v("ds",String.valueOf(list.size()));
+                VKList list = (VKList) response.parsedModel;
+                RecyclerView rv = (RecyclerView) findViewById(R.id.userFriend);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                rv.setLayoutManager(linearLayoutManager);
+                RecyclerAdapterFriend adapterFriends = new RecyclerAdapterFriend(getApplicationContext(), list);
+                rv.setAdapter(adapterFriends);
             }
         });
     }

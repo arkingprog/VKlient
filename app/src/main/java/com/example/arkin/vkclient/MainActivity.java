@@ -38,6 +38,7 @@ import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.methods.VKApiMessages;
 import com.vk.sdk.api.model.VKApiPost;
 import com.vk.sdk.api.model.VKApiUser;
+import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKList;
 import com.vk.sdk.api.model.VKPostArray;
 import com.vk.sdk.util.VKUtil;
@@ -68,19 +69,15 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         if(!VKSdk.isLoggedIn())
@@ -98,10 +95,9 @@ public class MainActivity extends AppCompatActivity
                     VKList<VKApiUser> userMe = ((VKList<VKApiUser>) response.parsedModel);
                     mainUser = userMe.get(0);
                     ImageView im = (ImageView) findViewById(R.id.imageView);
-
-                    imageLoader.displayImage(userMe.get(0).photo_100,im);
+                    imageLoader.displayImage(userMe.get(0).photo_100, im);
                     im = (ImageView) findViewById(R.id.imageView_main);
-                    imageLoader.displayImage(userMe.get(0).photo_200,im);
+                    imageLoader.displayImage(userMe.get(0).photo_200, im);
                     TextView txt = (TextView) findViewById(R.id.fullname);
                     txt.setText(userMe.get(0).first_name + " " + userMe.get(0).last_name);
                     txt = (TextView) findViewById(R.id.userName);
@@ -112,10 +108,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
-
-
-
-            VKRequest reqWall=VKApi.wall().get(VKParameters.from("owner_id",66505229));
+            VKRequest reqWall=VKApi.wall().get(VKParameters.from("owner_id",66505229,"extended",1));
             reqWall.setPreferredLang("ru");
             reqWall.executeWithListener(new VKRequest.VKRequestListener() {
                 @Override
@@ -128,7 +121,7 @@ public class MainActivity extends AppCompatActivity
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.v("test", owner);
+
 
                     VKPostArray posts=new VKPostArray();
                     try {
@@ -137,6 +130,25 @@ public class MainActivity extends AppCompatActivity
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
+
+                    try {
+                        JSONArray array=((JSONArray) ((JSONObject) jsonObject.get("response")).get("groups"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    VKApiPost p=posts.get(0);
+
+                    VKAttachments at=p.attachments;
+
+                    VKAttachments.VKApiAttachment test=at.get(1);
+                    try {
+                        Log.v("test",(((JSONObject) ((JSONArray) ((JSONObject) jsonObject.get("response")).get("profiles")).get(0)).getString("id")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     RecyclerView rv=(RecyclerView)findViewById(R.id.userWall);
                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext());
                     rv.setLayoutManager(linearLayoutManager);

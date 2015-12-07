@@ -4,16 +4,28 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/item_friend_image"/>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView android:layout_column="0"
+        android:layout_row="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_friend_image"
+        android:paddingRight="16dp"/>
+
     <TextView
+        android:layout_column="1"
+        android:layout_row="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:text="tefs"
         android:id="@+id/item_friend_fullname"/>
-<ImageView
+    <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/item_friend_is_online"/>
+    android:id="@+id/item_friend_is_online"
+        android:layout_gravity="end"/>
+
+    </GridLayout>
 </LinearLayout>

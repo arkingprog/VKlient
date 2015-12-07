@@ -58,7 +58,8 @@ public class RecyclerAdapterWall extends RecyclerView.Adapter<RecyclerAdapterWal
 
 
         holder.textPost.setText(p.text);
-        holder.textDatePost.setText(String.valueOf(p.date));
+        java.util.Date time=new java.util.Date((long)p.date*1000);
+        holder.textDatePost.setText(String.valueOf(time));
         //new GetUsersTask(holder.textNamePost,holder.imageWall,ctx).execute(String.valueOf(p.from_id));
         new GetUsersTask(holder.textNamePost,holder.imageWall,ctx,imageLoader).execute(String.valueOf(p.from_id));
 

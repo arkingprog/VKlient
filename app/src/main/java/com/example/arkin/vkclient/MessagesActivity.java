@@ -127,17 +127,18 @@ public class MessagesActivity extends AppCompatActivity
         {
             case R.id.nav_exit:
                 VKSdk.logout();
-                Intent intent=new Intent(this,LoginActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.nav_messages:
-                Intent intentMes=new Intent(this,MessagesActivity.class);
-                startActivity(intentMes);
-
+               // Intent intentMes=new Intent(this,MessagesActivity.class);
+               // startActivity(intentMes);
                 break;
             case R.id.nav_mainpage:
-                Intent intentMain=new Intent(this,MainActivity.class);
-                startActivity(intentMain);
+                startActivity(new Intent(this,MainActivity.class));
+                break;
+            case R.id.nav_friends:
+                startActivity(new Intent(this,FriendActivity.class));
+
                 break;
             default:
 
